@@ -1,10 +1,6 @@
 const std = @import("std");
 const math = @import("math.zig");
 
-// the triangulation is a list of edges,
-// with each edge pointing to the two triangles containing it
-// we work with a "point at infinity", represented by index n,
-// so every "real" edge belongs to exactly two triangles,
 const DelaunayMap = std.AutoArrayHashMap([2]usize, TriangleData);
 
 const TriangleData = struct {
@@ -190,6 +186,8 @@ fn PlanarTriangulation(comptime F: type) type {
     };
 }
 
+/// the Bowyer--Watson algorithm, as explained by Shewchuk:
+/// https://people.eecs.berkeley.edu/~jrs/meshpapers/delnotes.pdf
 /// returns a list of indices into verts;
 /// the length of this list will be a multiple of three (unless verts is too small)
 /// and each group of three determines a triangle of the triangulation
